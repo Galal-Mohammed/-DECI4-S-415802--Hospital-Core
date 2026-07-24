@@ -1,0 +1,17 @@
+{
+  "name": "healthcare-system",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hospital Management System",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "microservices/appointment-service"
+  ],
+  "scripts": {
+    "dev": "echo Starting development...",
+    "start": "echo Starting Healthcare System",
+    "test": "echo Tests will be added later"
+  },
+  "license": "ISC"
+}

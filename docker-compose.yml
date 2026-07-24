@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo:8
+    container_name: healthcare-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: healthcare-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - mongo
+    restart: always
+
+  appointment-service:
+    build: ./microservices/appointment-service
+    container_name: appointment-service
+    ports:
+      - "5001:5001"
+    environment:
+      PORT: 5001
+      MONGO_URI: mongodb://mongo:27017/healthcare
+    depends_on:
+      - mongo
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: healthcare-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+      - appointment-service
+    restart: always
+
+volumes:
+  mongo_data:
